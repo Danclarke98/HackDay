@@ -1,6 +1,7 @@
 import pyaudio
 import wave
-import sys
+import numpy as np
+
 CHUNK = 2**11
 RATE = 44100
 
@@ -8,18 +9,19 @@ wf = wave.open('/home/poppad/Music/test.wav')
 
 p = pyaudio.PyAudio()
 
-# open stream
+
 stream = p.open(format =
                 p.get_format_from_width(wf.getsampwidth()),
-                channels = wf.getnchannels(),
+                channels = 1,
                 rate = wf.getframerate(),
-                output = True)
+                input = True)
+
 
 for i in range(int(10*44100/1024)): #go for a few seconds
-    data = np.fromstring(stream.read(CHUNK),dtype=np.int16)
+    data = np.fromstring(stream.read(CHUNK), dtype=np.int16)
     peak=np.average(np.abs(data))*2
     bars="#"*int(50*peak/2**16)
-    print("%04d %05d %s"%(i,peak,bars))
+    print("Int: ", i, "Peak: ", peak, "Bars: ", bars)
 
 stream.stop_stream()
 stream.close()
