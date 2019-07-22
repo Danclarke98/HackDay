@@ -3,3 +3,6 @@ from core.enums import DeviceType, MetricType
 
 
 print(controls.get_device_state(DeviceType.FAN))
+
+
+
